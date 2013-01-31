@@ -1,0 +1,12 @@
+{
+  "name": "keyboard",
+  "repo": "mteam/keyboard",
+  "version": "0.1.0",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "mteam/events": "*",
+    "component/bind": "*"
+  }
+}
