@@ -1,4 +1,4 @@
-var events = require('events'),
+var events = require('mteam-events'),
     bind = require('bind');
 
 // --- setup ---
