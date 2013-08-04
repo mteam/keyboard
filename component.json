@@ -7,6 +7,7 @@
   ],
   "dependencies": {
     "mteam/events": "*",
-    "component/bind": "*"
+    "component/bind": "*",
+    "component/event": "*"
   }
 }

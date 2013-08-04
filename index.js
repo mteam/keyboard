@@ -1,4 +1,5 @@
-var events = require('mteam-events'),
+var events = require('events'),
+    event = require('event'),
     bind = require('bind');
 
 // --- setup ---
@@ -11,8 +12,8 @@ function Keyboard() {
 module.exports = Keyboard;
 
 Keyboard.prototype.attach = function() {
-  window.addEventListener('keydown', bind(this.down, this));
-  window.addEventListener('keyup', bind(this.up, this));
+  event.bind(window, 'keydown', bind(this, this.down));
+  event.bind(window, 'keyup', bind(this, this.up));
 };
 
 // --- events handling ---
