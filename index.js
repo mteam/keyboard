@@ -23,6 +23,7 @@ Keyboard.prototype.press = function(event) {
   if (!this.pressed[key]) {
     this.pressed[key] = true;
     this.trigger('pressed', key, code);
+    this.trigger('pressed:' + key);
   }
 };
 
@@ -33,6 +34,7 @@ Keyboard.prototype.release = function(event) {
   if (this.pressed[key]) {
     this.pressed[key] = false;
     this.trigger('released', key, code);
+    this.trigger('released:' + key);
   }
 };
 
