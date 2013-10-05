@@ -1,6 +1,6 @@
-var events = require('events'),
-    event = require('event'),
-    bind = require('bind');
+var events = require('events');
+var event = require('event');
+var bind = require('bind');
 
 // --- setup ---
 
@@ -9,18 +9,16 @@ function Keyboard() {
   this.pressed = {};
 }
 
-module.exports = Keyboard;
-
 Keyboard.prototype.attach = function() {
-  event.bind(window, 'keydown', bind(this, this.down));
-  event.bind(window, 'keyup', bind(this, this.up));
+  event.bind(window, 'keydown', bind(this, 'press'));
+  event.bind(window, 'keyup', bind(this, 'release'));
 };
 
 // --- events handling ---
 
-Keyboard.prototype.down = function(event) {
-  var code = event.keyCode,
-      key = names[code] || code;
+Keyboard.prototype.press = function(event) {
+  var code = event.keyCode;
+  var key = names[code] || code;
 
   if (!this.pressed[key]) {
     this.pressed[key] = true;
@@ -28,9 +26,9 @@ Keyboard.prototype.down = function(event) {
   }
 };
 
-Keyboard.prototype.up = function(event) {
-  var code = event.keyCode,
-      key = names[code] || code;
+Keyboard.prototype.release = function(event) {
+  var code = event.keyCode;
+  var key = names[code] || code;
 
   if (this.pressed[key]) {
     this.pressed[key] = false;
@@ -78,3 +76,5 @@ for (var j = 0; j <= 9; j++) {
 for (var k = 0; k <= 12; k++) {
   names[k + 111] = 'f' + k;
 }
+
+module.exports = Keyboard;
