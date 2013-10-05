@@ -7,11 +7,19 @@ var bind = require('bind');
 function Keyboard() {
   events.extend(this);
   this.pressed = {};
+
+  this.press = bind(this, 'press');
+  this.release = bind(this, 'release');
 }
 
 Keyboard.prototype.attach = function() {
-  event.bind(window, 'keydown', bind(this, 'press'));
-  event.bind(window, 'keyup', bind(this, 'release'));
+  event.bind(window, 'keydown', this.press);
+  event.bind(window, 'keyup', this.release);
+};
+
+Keyboard.prototype.detach = function() {
+  event.unbind(window, 'keydown', this.press);
+  event.unbind(window, 'keyup', this.release);
 };
 
 // --- events handling ---
