@@ -6,8 +6,8 @@
     "index.js"
   ],
   "dependencies": {
-    "mteam/events": "*",
     "component/bind": "*",
-    "component/event": "*"
+    "component/events": "*",
+    "component/emitter": "*"
   }
 }

@@ -1,25 +1,23 @@
+var Emitter = require('emitter');
 var events = require('events');
-var event = require('event');
 var bind = require('bind');
 
 // --- setup ---
 
 function Keyboard() {
-  events.extend(this);
   this.pressed = {};
-
-  this.press = bind(this, 'press');
-  this.release = bind(this, 'release');
 }
 
+Emitter(Keyboard.prototype);
+
 Keyboard.prototype.attach = function() {
-  event.bind(window, 'keydown', this.press);
-  event.bind(window, 'keyup', this.release);
+  this.events = events(window, this);
+  this.events.bind('keydown', 'press');
+  this.events.bind('keyup', 'release');
 };
 
 Keyboard.prototype.detach = function() {
-  event.unbind(window, 'keydown', this.press);
-  event.unbind(window, 'keyup', this.release);
+  this.events.unbind();
 };
 
 // --- events handling ---
@@ -29,9 +27,9 @@ Keyboard.prototype.press = function(event) {
   var key = names[code] || code;
 
   if (!this.pressed[key]) {
+    this.emit('pressed', key, code);
+    this.emit('pressed:' + key);
     this.pressed[key] = true;
-    this.trigger('pressed', key, code);
-    this.trigger('pressed:' + key);
   }
 };
 
@@ -40,15 +38,15 @@ Keyboard.prototype.release = function(event) {
   var key = names[code] || code;
 
   if (this.pressed[key]) {
+    this.emit('released', key, code);
+    this.emit('released:' + key);
     this.pressed[key] = false;
-    this.trigger('released', key, code);
-    this.trigger('released:' + key);
   }
 };
 
 // ---
 
-Keyboard.prototype.isDown = function(key) {
+Keyboard.prototype.down = function(key) {
   return !!this.pressed[key];
 };
 
